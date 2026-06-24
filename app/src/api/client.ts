@@ -1,5 +1,8 @@
+import { getAuthToken } from '../storage/authStorage';
+
 export type ApiRequestOptions = RequestInit & {
   token?: string | null;
+  skipAuth?: boolean;
 };
 
 const DEFAULT_API_URL = 'http://localhost:3000/api/v1';
@@ -24,15 +27,16 @@ async function parseResponse<T>(response: Response): Promise<T> {
 }
 
 export async function apiClient<T>(path: string, options: ApiRequestOptions = {}): Promise<T> {
-  const { token, headers, ...requestOptions } = options;
+  const { token, skipAuth = false, headers, ...requestOptions } = options;
   const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const accessToken = token ?? (!skipAuth ? await getAuthToken() : null);
 
   const response = await fetch(`${API_URL}${normalizedPath}`, {
     ...requestOptions,
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       ...headers,
     },
   });
