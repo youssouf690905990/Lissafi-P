@@ -14,8 +14,14 @@ npm run start
 Copier `.env.example` vers `.env` et ajuster l'URL de l'API si nécessaire :
 
 ```bash
-EXPO_PUBLIC_API_URL=http://localhost:3000/api/v1
+EXPO_PUBLIC_API_URL=https://lissafi-p-production.up.railway.app/api/v1
 ```
+
+### URL API
+
+L'application utilise l'API Railway en production par défaut : `https://lissafi-p-production.up.railway.app/api/v1`.
+
+Pour tester une API locale, remplacez `EXPO_PUBLIC_API_URL` par l'adresse accessible depuis votre appareil, puis redémarrez Expo.
 
 ## Structure
 
